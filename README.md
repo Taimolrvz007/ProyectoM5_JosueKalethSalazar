@@ -40,7 +40,7 @@ Usuario ──► LLM (Claude, GPT, etc.) ──► AutomateHub MCP Server ─�
 | Abrir un bug | Ir a GitHub, navegar, llenar formulario | *"Abrí un issue con el título 'Error en login' y descripción detallada"* |
 | Crear un feature branch | `git checkout -b feature/nueva` | *"Crea la rama feature/auth a partir de main"* |
 | Code review | Abrir PR manualmente | *"Abre un pull request de feature/auth hacia main"* |
-| Onboarding | Invitar collaborador desde la UI | *"Agrega a juan123 como colaborador con permisos de escritura"* |
+| Onboarding | Invitar colaborador desde la UI | *"Agrega a juan123 como colaborador con permisos de escritura"* |
 | Auditoría | Descargar y abrir archivos | *"Leeme el contenido del archivo src/config.ts del repositorio mi-proyecto"* |
 
 ---
@@ -67,8 +67,8 @@ node --version
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/FacundoRozalez/ProyectoM5_FacundoRozalez.git
-cd ProyectoM5_FacundoRozalez
+git clone https://github.com/Taimolrvz007/ProyectoM5_JosueKalethSalazar.git
+cd ProyectoM5_JosueKalethSalazar
 ```
 
 ### 2. Instalar dependencias
@@ -143,7 +143,7 @@ GITHUB_TOKEN=ghp_tu_token_aqui_1234567890abcdef
 
 Editá el archivo de configuración de tu cliente MCP (ej. `mcp_config.json`).
 
-> 💡 **Seguridad Mejorada:** Gracias al sistema de resolución dinámica absoluta del servidor, este localiza automáticamente tu archivo `.env` en la raíz del proyecto. **No necesitas exponer ni harcodear tu `GITHUB_TOKEN` en este archivo de configuración.** El token se leerá de manera completamente segura desde tu `.env` local.
+> 💡 **Seguridad Mejorada:** Gracias al sistema de resolución dinámica absoluta del servidor, este localiza automáticamente tu archivo `.env` en la raíz del proyecto. **No necesitás exponer ni hardcodear tu `GITHUB_TOKEN` en este archivo de configuración.** El token se leerá de manera completamente segura desde tu `.env` local.
 
 #### Opción A: Ejecutar directamente con `tsx` (Código de desarrollo)
 
@@ -152,7 +152,7 @@ Si preferís correr directamente el archivo TypeScript sin pasar por compilacion
 ```json
 {
   "mcpServers": {
-    "soyhenry-github": {
+    "github-mcp": {
       "command": "npx",
       "args": [
         "-y",
@@ -165,7 +165,7 @@ Si preferís correr directamente el archivo TypeScript sin pasar por compilacion
 ```
 
 > Reemplazá `/ruta/absoluta/al/proyecto/` con la ruta real en tu sistema.  
-> Ejemplo Linux/macOS: `/home/facurozalez/ProyectoM5_FacundoRozalez/src/server.ts`
+> Ejemplo Windows: `D:\Janus\Documents\ProyectoM5_JosueSalazar\src\server.ts`
 
 #### Opción B: Ejecutar el JavaScript compilado (Recomendado para producción)
 
@@ -174,7 +174,7 @@ Si preferís correr el código compilado en la carpeta `dist/` tras hacer `npm r
 ```json
 {
   "mcpServers": {
-    "soyhenry-github": {
+    "github-mcp": {
       "command": "node",
       "args": [
         "/ruta/absoluta/al/proyecto/dist/server.js"
@@ -186,7 +186,7 @@ Si preferís correr el código compilado en la carpeta `dist/` tras hacer `npm r
 
 #### Inspeccionar las tools con MCP Inspector
 
-Para ver y probar las tools de forma visual antes de conectarlas a un LLM:
+Para visualizar y probar las tools antes de conectarlas a un LLM:
 
 ```bash
 npx @modelcontextprotocol/inspector node --env-file=.env dist/server.js
@@ -200,7 +200,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 
 ### 1. `list_repositories`
 
-**Descripción:** Lista los repositorios personales del usuario autenticado. Incluye paginación y caché en memoria para no gastar cuota de API.
+**Descripción:** Lista los repositorios personales del usuario autenticado. Incluye paginación y caché en memoria para no consumir cuota de API innecesariamente.
 
 **Parámetros:**
 
@@ -210,7 +210,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `page` | `number` | No | Número de página (mínimo 1). Por defecto: 1 |
 
 **Ejemplo de prompt:**
-> *"Listame todos mis repositorios de GitHub"*
+> *"Listame todos mis repositorios de GitHub"*  
 > *"Mostrame la segunda página de mis repos, de a 10 por página"*
 
 ---
@@ -228,7 +228,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `private` | `boolean` | No | Si el repo será privado. Por defecto: `false` |
 
 **Ejemplo de prompt:**
-> *"Creame un repositorio llamado 'mi-portfolio' con la descripción 'Mi portfolio personal' y que sea público"*
+> *"Creame un repositorio público llamado 'mi-portfolio' con la descripción 'Mi portfolio personal'"*  
 > *"Crea un repo privado llamado 'notas-secretas'"*
 
 ---
@@ -250,10 +250,8 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 **Formato del parámetro `files`:**
 
 ```json
-// Un archivo:
 [{"path": "README.md", "content": "# Mi Proyecto"}]
 
-// Múltiples archivos:
 [
   {"path": "src/app.js", "content": "console.log('Hola mundo');"},
   {"path": "src/utils.js", "content": "export const suma = (a, b) => a + b;"},
@@ -262,8 +260,8 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 ```
 
 **Ejemplo de prompt:**
-> *"Subí un archivo README.md con el contenido '# Hola Mundo' al repositorio 'mi-proyecto'"*
-> *"Hacé un commit en la rama develop del repo 'mi-app' con estos 3 archivos: [archivos...]"*
+> *"Subí un archivo README.md con el contenido '# Hola Mundo' al repositorio 'mi-proyecto'"*  
+> *"Hacé un commit en la rama develop del repo 'mi-app' con estos 3 archivos"*
 
 ---
 
@@ -281,8 +279,8 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `branch` | `string` | No | Rama de la cual leer. Por defecto: rama principal |
 
 **Ejemplo de prompt:**
-> *"Leeme el archivo src/config.ts del repositorio mi-api"*
-> *"Mostrame el contenido del README.md de la rama develop del repo FacundoRozalez/mi-proyecto"*
+> *"Leeme el archivo src/config.ts del repositorio mi-api"*  
+> *"Mostrame el contenido del README.md de la rama develop"*
 
 ---
 
@@ -300,7 +298,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `from_branch` | `string` | No | Rama origen. Por defecto: `main` |
 
 **Ejemplo de prompt:**
-> *"Creá la rama 'feature/autenticacion' a partir de main en el repo 'mi-api'"*
+> *"Creá la rama 'feature/autenticacion' a partir de main en el repo 'mi-api'"*  
 > *"Crea una rama 'hotfix/bug-critico' desde la rama 'develop'"*
 
 ---
@@ -319,7 +317,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `body` | `string` | No | Detalles del issue en Markdown |
 
 **Ejemplo de prompt:**
-> *"Abrí un issue en 'mi-api' con el título 'Error 500 en endpoint /users' y explicá que falla cuando el usuario no existe"*
+> *"Abrí un issue en 'mi-api' con el título 'Error 500 en endpoint /users'"*  
 > *"Creá una tarea en el repo 'mi-proyecto' para implementar autenticación con JWT"*
 
 ---
@@ -337,7 +335,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `state` | `"open"` \| `"closed"` \| `"all"` | No | Filtro de estado. Por defecto: `"open"` |
 
 **Ejemplo de prompt:**
-> *"Mostrame todos los issues abiertos del repo 'mi-proyecto'"*
+> *"Mostrame todos los issues abiertos del repo 'mi-proyecto'"*  
 > *"Listame los issues cerrados del repositorio 'mi-api'"*
 
 ---
@@ -358,7 +356,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `body` | `string` | No | Descripción de los cambios para los revisores |
 
 **Ejemplo de prompt:**
-> *"Abrí un PR del repo 'mi-api' para fusionar la rama 'feature/autenticacion' hacia main, con el título 'feat: sistema de login con JWT'"*
+> *"Abrí un PR del repo 'mi-api' para fusionar la rama 'feature/autenticacion' hacia main"*
 
 ---
 
@@ -376,7 +374,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 | `permission` | `"pull"` \| `"push"` \| `"admin"` | No | Rol asignado. Por defecto: `"push"` |
 
 **Ejemplo de prompt:**
-> *"Invitá al usuario 'juandev123' como colaborador con permisos de escritura en el repo 'mi-proyecto'"*
+> *"Invitá al usuario 'devjuan123' como colaborador con permisos de escritura en el repo 'mi-proyecto'"*  
 > *"Agrega a 'maria-github' como admin del repositorio 'empresa-repo'"*
 
 ---
@@ -389,9 +387,9 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 1. "Creame un repositorio público llamado 'e-commerce-api' con la descripción 'API REST para tienda online'"
 
 2. "Subí estos archivos al repo 'e-commerce-api' con el mensaje 'feat: estructura inicial del proyecto':
-   - src/index.js con: const express = require('express'); const app = express(); app.listen(3000);
-   - src/routes/products.js con: module.exports = require('express').Router();
-   - README.md con: # E-Commerce API"
+   - src/index.js
+   - src/routes/products.js
+   - README.md"
 
 3. "Creá la rama 'feature/autenticacion' en 'e-commerce-api'"
 
@@ -472,7 +470,7 @@ Luego abrí `http://localhost:6274` en tu navegador, hacé clic en **Connect** y
 ### Estructura de archivos
 
 ```
-ProyectoM5_FacundoRozalez/
+ProyectoM5_JosueKalethSalazar/
 ├── src/
 │   ├── server.ts              # Servidor MCP principal
 │   ├── tools/                 # Una tool por archivo
@@ -491,7 +489,7 @@ ProyectoM5_FacundoRozalez/
 │   ├── schemas/
 │   │   └── index.ts           # Esquemas Zod + tipos TypeScript
 │   ├── errors/
-│   │   └── index.ts           # Tradución de errores para el LLM
+│   │   └── index.ts           # Traducción de errores para el LLM
 │   └── utils/
 │       ├── retry.ts            # Backoff exponencial
 │       ├── rateLimiter.ts      # Control de solicitudes
@@ -517,7 +515,7 @@ npm test
 npx vitest
 ```
 
-Los tests están ubicados en la carpeta `src/__tests__/` y utilizan **Vitest** como framework de testing.
+Los tests están ubicados en la carpeta `src/tests/` y utilizan **Vitest** como framework de testing.
 
 ---
 
@@ -571,7 +569,7 @@ echo "GITHUB_TOKEN=ghp_tu_token_aqui" > .env
 
 ### ❌ Error: `409 Git Repository is empty` (versiones anteriores)
 
-**Causa:** Este error era común antes de la implementación del "Paso 0" inteligente.
+**Causa:** Este error era frecuente antes de la implementación del "Paso 0" inteligente.
 
 **Estado actual:** ✅ **Ya está resuelto.** El servidor detecta automáticamente si el repositorio está vacío y lo inicializa antes de continuar.
 
@@ -622,16 +620,13 @@ Este proyecto está bajo la **Licencia MIT**.
 ```
 MIT License
 
-Copyright (c) 2026 Facundo Rozalez
+Copyright (c) 2026 Josue Kaleth Salazar
+```
 
 ---
 
 ## 👨‍💻 Autor
 
-**Facundo Rozalez**  
+**Josue Kaleth Salazar**  
 Bootcamp FullStack — SoyHenry · Proyecto Integrador Módulo 5  
-GitHub: [@FacundoRozalez](https://github.com/FacundoRozalez)
-
-
-
-
+GitHub: [@Taimolrvz007](https://github.com/Taimolrvz007)

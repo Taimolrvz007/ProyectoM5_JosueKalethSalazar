@@ -57,13 +57,13 @@ export const gitHubOperations = {
     let baseTreeSha: string | undefined;
 
     try {
-      // PASO 1: Obtener el SHA del último commit de la rama
+     
       const refResp = await retryWithBackoff(() => 
         octokit.git.getRef({ owner, repo, ref: `heads/${branch}` })
       );
       baseCommitSha = refResp.data.object.sha;
 
-      // PASO 2: Obtener el commit base para sacar el SHA del tree (plano de carpetas)
+    
       const commitResp = await retryWithBackoff(() => 
         octokit.git.getCommit({ owner, repo, commit_sha: baseCommitSha! })
       );
@@ -88,7 +88,7 @@ export const gitHubOperations = {
       }
     }
 
-    // PASO 0 Inteligente: Si está vacío, inicializamos con el primer archivo usando API de alto nivel
+   
     if (isEmptyRepo && files.length > 0) {
       const firstFile = files[0];
       const initResp = await retryWithBackoff(() => 
