@@ -21,7 +21,6 @@ export const createCommitTool: MCPToolDefinition = {
       branch: { type: "string", description: "Rama donde impactar el commit. Por defecto: main." },
       files: {
         type: "array",
-        // 2. Dejamos esto corto para que el bug de la UI del Inspector no moleste
         description: "Format JSON",
         items: {
           type: "object",
