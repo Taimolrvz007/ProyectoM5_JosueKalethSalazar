@@ -3,7 +3,7 @@ process.env.GITHUB_PERSONAL_ACCESS_TOKEN = "ghp_mock_token_for_testing_purposes"
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { gitHubOperations } from "../src/github/operations.js";
 
-// Mock modular de la dependencia externa de Octokit (Se usa .js por regla ESM)
+
 vi.mock("../src/github/client.js", () => {
   return {
     octokit: {
@@ -32,7 +32,7 @@ describe("🧪 PRUEBAS DE OPERACIONES DE GITHUB con MOCKS", () => {
   test("4. listRepositories debería retornar la colección simulada desde el mock de Octokit", async () => {
     vi.mocked(octokit.repos.listForAuthenticatedUser).mockResolvedValue({
       data: [{ id: 123, name: "repo-mockeado-henry", private: false }],
-      // Agregamos las cabeceras simuladas exigidas por el handler
+     
       headers: {
         link: "" 
       }
@@ -40,13 +40,12 @@ describe("🧪 PRUEBAS DE OPERACIONES DE GITHUB con MOCKS", () => {
 
     const result = await gitHubOperations.listRepositories({ per_page: 5, page: 1 });
     
-    // Acceso correcto al primer índice del array simulado
     expect(result.data[0].name).toBe("repo-mockeado-henry");
     expect(octokit.repos.listForAuthenticatedUser).toHaveBeenCalledOnce();
   });
 
   test("5. createIssue debería procesar exitosamente la apertura de un ticket", async () => {
-    vi.mocked(octokit.repos.get).mockResolvedValue({} as any); // Pasa la validación Pre-flight
+    vi.mocked(octokit.repos.get).mockResolvedValue({} as any); 
     vi.mocked(octokit.issues.create).mockResolvedValue({
       data: { number: 99, html_url: "https://github.com" }
     } as any);

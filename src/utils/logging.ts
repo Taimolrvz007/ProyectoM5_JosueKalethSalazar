@@ -5,7 +5,6 @@ export enum LogLevel {
 class Logger {
   private level: LogLevel = LogLevel.INFO;
 
-  // Obligatorio: escribir en stderr para no interferir con la comunicación JSON-RPC de stdio
   private log(lvl: LogLevel, prefix: string, msg: string, meta?: any) {
     if (lvl >= this.level) {
       const time = new Date().toISOString();

@@ -15,7 +15,7 @@ describe("🧪 PRUEBAS DE VALIDACIÓN DE SCHEMAS (ZOD)", () => {
 
   test("2. Debería rechazar nombres de repositorios con espacios o caracteres prohibidos", () => {
     const payload = {
-      name: "mi repositorio invalido!" // Espacios y signo de exclamación prohibidos
+      name: "mi repositorio invalido!"
     };
     const result = ToolsSchemas.CreateRepositorySchema.safeParse(payload);
     expect(result.success).toBe(false);
@@ -29,7 +29,7 @@ describe("🧪 PRUEBAS DE VALIDACIÓN DE SCHEMAS (ZOD)", () => {
       owner: "automatehub-org",
       repo: "mcp-server",
       body: "Detalle del error"
-      // Falta 'title'
+     
     };
     const result = ToolsSchemas.CreateIssueSchema.safeParse(payload);
     expect(result.success).toBe(false);

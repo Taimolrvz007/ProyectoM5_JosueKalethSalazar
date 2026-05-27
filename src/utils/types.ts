@@ -1,8 +1,4 @@
-/**
- * Interfaces globales y tipos de datos compartidos de AutomateHub MCP
- */
 
-// 1. Tipos relacionados al sistema de Logging estructurado
 export type LogLevelString = "DEBUG" | "INFO" | "WARN" | "ERROR";
 
 export interface LogEntry {
@@ -12,13 +8,11 @@ export interface LogEntry {
   meta?: Record<string, any>;
 }
 
-// 2. Interfaces relacionadas con la capa de Caché interna (Extra Credit)
 export interface CacheEntry<T = any> {
   data: T;
   expiry: number;
 }
 
-// 3. Estructuras de datos comunes de la API de GitHub que consume tu lógica
 export interface GitHubUser {
   login: string;
   id: number;
@@ -48,7 +42,6 @@ export interface GitHubIssueSummary {
   comments: number;
 }
 
-// 4. Tipo de retorno unificado que espera el SDK de Model Context Protocol (MCP)
 export interface MCPTextContent {
   type: "text";
   text: string;
@@ -57,16 +50,16 @@ export interface MCPTextContent {
 export interface MCPResponse {
   content: MCPTextContent[];
   isError?: boolean;
-  [key: string]: unknown; // Compatibilidad con propiedades extra del SDK
+  [key: string]: unknown; 
 }
 
-// 5. Contrato base que debe cumplir cada archivo de la carpeta /tools
+
 export interface MCPToolDefinition {
   name: string;
   description: string;
   inputSchema: {
     type: "object";
-    properties: Record<string, any>; // Flexible: soporta schemas simples y anidados (arrays, objects, etc.)
+    properties: Record<string, any>;
     required?: string[];
   };
   handler: (args: unknown) => Promise<MCPResponse>;

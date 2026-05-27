@@ -115,7 +115,7 @@ export const gitHubOperations = {
       }
     }
 
-    // PASO 3: Crear todos los blobs en paralelo usando los servidores de GitHub
+
     const treeItems = await Promise.all(
       files.map(async (file) => {
         const blobResp = await retryWithBackoff(() => 
@@ -135,7 +135,7 @@ export const gitHubOperations = {
       })
     );
 
-    // PASO 4: Crear el nuevo tree inyectando la lista completa de blobs procesados
+   
     const treePayload: any = { owner, repo, tree: treeItems };
     if (!isEmptyRepo && baseTreeSha) {
       treePayload.base_tree = baseTreeSha;
@@ -143,7 +143,7 @@ export const gitHubOperations = {
     const treeResp = await retryWithBackoff(() => octokit.git.createTree(treePayload));
     const newTreeSha = treeResp.data.sha;
 
-    // PASO 5: Crear el commit definitivo enlazándolo con su antecesor
+  
     const commitPayload: any = { owner, repo, message, tree: newTreeSha };
     if (!isEmptyRepo && baseCommitSha) {
       commitPayload.parents = [baseCommitSha];
@@ -153,7 +153,7 @@ export const gitHubOperations = {
     const newCommitResp = await retryWithBackoff(() => octokit.git.createCommit(commitPayload));
     const newCommitSha = newCommitResp.data.sha;
 
-    // PASO 6: Mover de posición el puntero de la rama hacia el nuevo commit público
+   
     if (isEmptyRepo) {
       await retryWithBackoff(() => 
         octokit.git.createRef({
@@ -206,12 +206,10 @@ export const gitHubOperations = {
     
     const response = await retryWithBackoff(() => octokit.repos.getContent(params));
     
-    // Si la respuesta es un arreglo, significa que es un directorio, no un archivo
     if (Array.isArray(response.data)) {
       throw new Error(`La ruta '${data.path}' corresponde a un directorio, no a un archivo.`);
     }
 
-    // La API de GitHub devuelve el contenido en base64
     if (response.data.type === "file" && response.data.content) {
       const decodedContent = Buffer.from(response.data.content, 'base64').toString('utf8');
       return {
